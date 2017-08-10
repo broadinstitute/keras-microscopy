@@ -86,7 +86,7 @@ class ImageGenerator(object):
 
     def transform(self, x ):
         """
-        :param x:
+        :param x: image
 
         :return:
         """
