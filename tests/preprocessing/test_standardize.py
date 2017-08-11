@@ -137,7 +137,7 @@ def test_gaussian_blur_uint8():
 
 
 def test_gaussian_blur_float():
-    gaussian = keras_imaging.preprocessing.standardize.gaussian_blur(2, 0.3)
+    gaussian = keras_imaging.preprocessing.standardize.gaussian_blur(4, 0.3)
     img = numpy.random.randint(1, size=(100, 100, 3)).astype(numpy.float32)
     new = gaussian(img)
 
