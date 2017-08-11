@@ -20,6 +20,7 @@ def equalize(**kwargs):
     :param kwargs: Additional arguments for skimage.exposure.equalize_hist.
     :return: The equalize function.
     """
+
     def f(x):
         if keras.backend.image_data_format() == 'channels_last':
             x = numpy.moveaxis(x, -1, 0)
@@ -43,6 +44,7 @@ def reduce_noise(**kwargs):
     :param kwargs: Additional arguments for skimage.restoration.denoise_bilateral.
     :return: The reduce_noise function.
     """
+
     def f(x):
         if keras.backend.image_data_format() == 'channels_last':
             x = numpy.moveaxis(x, -1, 0)
@@ -67,6 +69,7 @@ def normalization(means, max_values):
     :param max_values: maximum value
     :return: normalized image
     """
+
     def f(x):
         return (x - means) / max_values
 
@@ -79,6 +82,7 @@ def gaussian_blur(mean_sigma, variance_sigma):
     :param variance_sigma: 
     :return: 
     """
+
     def f(x):
         sigma = numpy.random.normal(mean_sigma, variance_sigma)
         return skimage.filters.gaussian(x, sigma)

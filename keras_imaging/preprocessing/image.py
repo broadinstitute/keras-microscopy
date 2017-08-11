@@ -13,9 +13,8 @@ import keras_imaging.preprocessing
 class ImageGenerator(object):
     def __init__(
         self,
-        transforms=[],
-        standardizations=[],
-        reader_name = "skimage"
+        transformations=[],
+        standardizations=[]
     ):
         """
         :param transforms:
@@ -25,12 +24,10 @@ class ImageGenerator(object):
         :param reader_name:
 
         """
-        assert isinstance(transforms,list)
-        assert isinstance(standardizations, list)
 
-        self.transforms = transforms
+        self.transformations = transformations
         self.standardizations = standardizations
-        self.reader = keras_imaging.preprocessing.create_reader(reader_name)
+
 
     def flow_from_directory(
         self,
@@ -90,7 +87,7 @@ class ImageGenerator(object):
 
         :return:
         """
-        for t in self.transforms:
+        for t in self.transformations:
             x = t(x)
 
         return x

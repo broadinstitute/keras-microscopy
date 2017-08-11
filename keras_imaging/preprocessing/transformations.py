@@ -8,7 +8,7 @@ Note: Standardization and transforms assumes that x comes in WxHxC format from t
 """
 
 
-def horizontal_flip(prob):
+def flip_horizontally(prob=0.5):
     assert 0. < prob < 1.
 
     def f(x):
@@ -19,7 +19,7 @@ def horizontal_flip(prob):
     return f
 
 
-def vertical_flip(prob):
+def flip_vertically(prob=0.5):
     assert 0. < prob < 1.
 
     def f(x):
@@ -30,7 +30,7 @@ def vertical_flip(prob):
     return f
 
 
-def rotate90(prob):
+def rotate90(prob=0.5):
     assert 0. < prob < 1.
 
     def f(x):
@@ -51,8 +51,10 @@ def rescale(scale, **kwargs):
 
     axes_scale = (scale, scale, 1.0)
 
-    return lambda x: skimage.transform.resize(x, numpy.multiply(x.shape, axes_scale), **kwargs)
+    def f(x):
+        return skimage.transform.resize(x, numpy.multiply(x.shape, axes_scale), **kwargs)
 
+    return f
 
 
 def rotate():
@@ -93,7 +95,6 @@ def clip_patches(size, n):
 
 
 def clip_patche(size):
-    assert isinstance(size, tuple)
     assert len(size) == 2
 
     def f(x):
@@ -106,7 +107,6 @@ def clip_patche(size):
 
 def ellastic_transfrom(alpha, sigma, bg_value):
     def f(x):
-
         dx = gaussian_filter((numpy.random.rand(*x.shape[:2]) * 2 - 1),
                              sigma, mode="constant", cval=0) * alpha
         dy = gaussian_filter((numpy.random.rand(*x.shape[:2]) * 2 - 1),

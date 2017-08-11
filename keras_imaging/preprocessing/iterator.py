@@ -6,7 +6,7 @@ import threading
 import keras.backend
 import numpy
 import six.moves
-
+import skimage.io
 
 def _count_filenames(directory, extensions, follow_links=False):
     def _recursive_list(subpath):
@@ -219,7 +219,7 @@ class DirectoryIterator(Iterator):
         for batch_index, index in enumerate(indicies):
             filename = os.path.join(self.directory, self.filenames[index])
 
-            x = self.image_data_generator.reader(filename)
+            x = skimage.io.imread(filename)
 
             x = self.image_data_generator.standardize(x)
 
