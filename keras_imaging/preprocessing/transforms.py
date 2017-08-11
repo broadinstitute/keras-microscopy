@@ -99,7 +99,7 @@ def clip_patche(size):
     def f(x):
         cx = numpy.random.randint(0, x.shape[0] - size[0])
         cy = numpy.random.randint(0, x.shape[1] - size[1])
-        return x[cx:cx + size[0], cy:cy + size]
+        return x[cx:cx + size[0], cy:cy + size[1]]
 
     return f
 

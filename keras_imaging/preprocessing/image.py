@@ -30,7 +30,7 @@ class ImageGenerator(object):
 
         self.transforms = transforms
         self.standardizations = standardizations
-        self.reader = keras_microscopy.preprocessing.create_reader(reader_name)
+        self.reader = keras_imaging.preprocessing.create_reader(reader_name)
 
     def flow_from_directory(
         self,
