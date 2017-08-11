@@ -25,6 +25,7 @@ def test_desaturate_last(mocker):
     x = img.mean()
     assert numpy.isclose(new.mean(), x + (img.max() - x) * 0.5)
 
+
 """
 def test_rescale_first(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
@@ -34,6 +35,7 @@ def test_rescale_first(mocker):
     new = rescale(img)
     assert new.shape == (3, 50, 50)
 """
+
 
 def test_equalize_first(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
@@ -47,6 +49,7 @@ def test_equalize_first(mocker):
         for i in range(len(x[:, 0, 0])):
             y[i, :, :] = skimage.exposure.equalize_hist(x[i, :, :])
         return y
+
     numpy.testing.assert_array_equal(new, f(img))
 
 
@@ -62,6 +65,7 @@ def test_equalize_last(mocker):
         for i in range(len(x[0, 0, :])):
             y[:, :, i] = skimage.exposure.equalize_hist(x[:, :, i])
         return y
+
     numpy.testing.assert_array_equal(new, f(img))
 
 
@@ -94,9 +98,11 @@ def test_desaturate_uint8(mocker):
     x = img.mean()
     assert numpy.isclose(new.mean(), x + (img.max() - x) * 0.5)
 
+
 """
 
 """
+
 
 def test_equalize_uint8(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
@@ -110,6 +116,7 @@ def test_equalize_uint8(mocker):
         for i in range(len(x[:, 0, 0])):
             y[i, :, :] = skimage.exposure.equalize_hist(x[i, :, :])
         return y
+
     numpy.testing.assert_array_equal(new, f(img))
 
 
@@ -121,3 +128,22 @@ def test_reduce_noise_uint8(mocker):
     new = reduce(img)
     expected = skimage.restoration.denoise_bilateral(img[0, :, :], multichannel=False)
     numpy.testing.assert_array_equal(new, expected.reshape((1, 100, 100)))
+
+
+def test_gaussian_blur_uint8():
+    gaussian = keras_imaging.preprocessing.standardize.gaussian_blur(2, 0.3)
+    img = numpy.random.randint(256, size=(100, 100, 3)).astype(numpy.uint8)
+    new = gaussian(img)
+
+
+def test_gaussian_blur_float():
+    gaussian = keras_imaging.preprocessing.standardize.gaussian_blur(2, 0.3)
+    img = numpy.random.randint(1, size=(100, 100, 3)).astype(numpy.float32)
+    new = gaussian(img)
+
+
+def test_normalization():
+    norm = keras_imaging.preprocessing.standardize.normalization([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+    img = numpy.ones((100, 100, 3))
+    new = norm(img)
+    numpy.testing.assert_array_equal(new, img)
