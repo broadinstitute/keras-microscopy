@@ -76,7 +76,7 @@ def normalization(means, max_values):
     return f
 
 
-def gaussian_blur(mean_sigma, variance_sigma):
+def gaussian_blur(mean_sigma, variance_sigma=0.0):
     """
     :param mean_sigma: mean of expected value
     :param variance_sigma: 
@@ -84,7 +84,9 @@ def gaussian_blur(mean_sigma, variance_sigma):
     """
 
     def f(x):
-        sigma = numpy.random.normal(mean_sigma, variance_sigma)
+        sigma = mean_sigma
+        if variance_sigma is not 0.0:
+            sigma = numpy.random.normal(mean_sigma, variance_sigma)
         return skimage.filters.gaussian(x, sigma)
 
     return f
