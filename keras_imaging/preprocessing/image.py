@@ -203,5 +203,5 @@ def crop(image, height, width):
     orig_height, orig_width, _ = image.shape
     off_y = numpy.random.randint(0, orig_height - height)
     off_x = numpy.random.randint(0, orig_width - width)
-    return image[off_y:off_y+224, off_x:off_x+224, :]
+    return image[off_y:off_y+height, off_x:off_x+width, :]
 
