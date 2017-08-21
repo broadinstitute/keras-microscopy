@@ -79,8 +79,8 @@ def normalization(means, max_values):
 def gaussian_blur(mean_sigma, variance_sigma=0.0):
     """
     :param mean_sigma: mean of expected value
-    :param variance_sigma: 
-    :return: 
+    :param variance_sigma:
+    :return:
     """
 
     def f(x):

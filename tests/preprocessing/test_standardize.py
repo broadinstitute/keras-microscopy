@@ -26,17 +26,6 @@ def test_desaturate_last(mocker):
     assert numpy.isclose(new.mean(), x + (img.max() - x) * 0.5)
 
 
-"""
-def test_rescale_first(mocker):
-    image_data_format = mocker.patch("keras.backend.image_data_format")
-    image_data_format.return_value = "channels_first"
-    rescale = keras_imaging.preprocessing.standardize.rescale(0.5, mode='reflect')
-    img = numpy.random.rand(3, 100, 100)
-    new = rescale(img)
-    assert new.shape == (3, 50, 50)
-"""
-
-
 def test_equalize_first(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
     image_data_format.return_value = "channels_first"
@@ -97,11 +86,6 @@ def test_desaturate_uint8(mocker):
     new = desaturate(img)
     x = img.mean()
     assert numpy.isclose(new.mean(), x + (img.max() - x) * 0.5)
-
-
-"""
-
-"""
 
 
 def test_equalize_uint8(mocker):

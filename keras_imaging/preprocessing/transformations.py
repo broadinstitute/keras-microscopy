@@ -65,36 +65,7 @@ def rotate():
     return f
 
 
-"""
-def clip_patches(size, n):
-    
-    Function clips randomly n patches from the source and target image
-    :param size: a tuple new size
-    :param number: 
-    :return: function that from WxHxC produces nxsize[0]xsize[1]xC
-   
-    assert isinstance(size, tuple)
-    assert len(size) == 2
-
-    def f(x):
-        cx = np.random.randint(0, x.shape[0] - size[0], n)
-        cy = np.random.randint(0, x.shape[1] - size[1], n)
-        if 3 == len(x.shape):
-            patches = np.zeros((n, size[0], size[1],
-                                x.shape[1]), dtype=np.float32)
-        else:
-            patches = np.zeros((n, size[0], size[1]), dtype=np.float32)
-
-        for i in range(n):
-            patches[i] = x[cx[i]:cx[i] + size[0], cy[i]:cy[i] + size[1]]
-
-        return patches
-
-    return f
-"""
-
-
-def clip_patche(size):
+def clip_patch(size):
     assert len(size) == 2
 
     def f(x):
@@ -117,8 +88,7 @@ def ellastic_transfrom(alpha, sigma, bg_value):
 
         dest = numpy.zeros_like(x)
         for j in range(x.shape[2]):
-            dest[:, :, j] = map_coordinates(x[:, :, j], \
-                                            indices, cval=bg_value, order=1).reshape(x.shape[:2])
+            dest[:, :, j] = map_coordinates(x[:, :, j], indices, cval=bg_value, order=1).reshape(x.shape[:2])
         return dest
 
     return f

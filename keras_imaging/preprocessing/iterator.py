@@ -1,12 +1,13 @@
-import concurrent.futures
 import functools
 import os
 import threading
 
+import concurrent.futures
 import keras.backend
 import numpy
 import six.moves
 import skimage.io
+
 
 def _count_filenames(directory, extensions, follow_links=False):
     def _recursive_list(subpath):

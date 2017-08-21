@@ -1,42 +1,32 @@
 import imblearn.over_sampling
 import imblearn.under_sampling
-import keras.backend
-import numpy
-import scipy.ndimage
-import skimage.filters
-import skimage.transform
-import skimage.util
 
 import keras_imaging.preprocessing
 
 
 class ImageGenerator(object):
     def __init__(
-        self,
-        transformations=[],
-        standardizations=[]
+            self,
+            transformations=[],
+            standardizations=[]
     ):
         """
         :param transforms:
 
         :param standardizations:
 
-        :param reader_name:
-
         """
-
-        self.transformations = transformations
         self.standardizations = standardizations
-
+        self.transformations = transformations
 
     def flow_from_directory(
-        self,
-        directory,
-        batch_size=32,
-        sampling_method=None,
-        seed=None,
-        shape=(224, 224, 3),
-        shuffle=True
+            self,
+            directory,
+            batch_size=32,
+            sampling_method=None,
+            seed=None,
+            shape=(224, 224, 3),
+            shuffle=True
     ):
         """
         :param directory:
@@ -76,18 +66,18 @@ class ImageGenerator(object):
 
         :return:
         """
-        for s in self.standardizations:
-            x = s(x)
+        for standardization in self.standardizations:
+            x = standardization(x)
 
         return x
 
-    def transform(self, x ):
+    def transform(self, x):
         """
         :param x: image
 
         :return:
         """
-        for t in self.transformations:
-            x = t(x)
+        for transformation in self.transformations:
+            x = transformation(x)
 
         return x
