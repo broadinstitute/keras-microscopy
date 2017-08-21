@@ -200,7 +200,7 @@ class ImageGenerator(object):
 
 
 def crop(image, height, width):
-    orig_height, orig_width, _ = image.shape
+    orig_height, orig_width = image.shape[:2]
     off_y = numpy.random.randint(0, orig_height - height)
     off_x = numpy.random.randint(0, orig_width - width)
     return image[off_y:off_y+height, off_x:off_x+width, :]
