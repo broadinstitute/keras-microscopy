@@ -101,3 +101,9 @@ class TestImageGenerator:
         assert generator.n == generator.classes.shape[0]
 
         assert generator.samples == generator.classes.shape[0]
+
+
+def test_crop():
+    img = numpy.random.rand(256, 256, 3)
+    crp = keras_imaging.preprocessing.image.crop(img, 224, 224)
+    assert crp.shape == (224, 224, 3)
