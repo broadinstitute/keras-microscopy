@@ -1,8 +1,8 @@
-import concurrent.futures
 import functools
 import os
 import threading
 
+import concurrent.futures
 import keras.backend
 import numpy
 import six.moves
@@ -11,7 +11,8 @@ import skimage.io
 
 def _count_filenames(directory, extensions, follow_links=False):
     def _recursive_list(subpath):
-        return sorted(os.walk(subpath, followlinks=follow_links), key=lambda tpl: tpl[0])
+        return sorted(os.walk(subpath, followlinks=follow_links),
+                      key=lambda tpl: tpl[0])
 
     samples = 0
 
@@ -32,7 +33,8 @@ def _count_filenames(directory, extensions, follow_links=False):
 
 def _find_filenames(directory, extensions, class_indices, follow_links=False):
     def _recursive_list(subpath):
-        return sorted(os.walk(subpath, followlinks=follow_links), key=lambda tpl: tpl[0])
+        return sorted(os.walk(subpath, followlinks=follow_links),
+                      key=lambda tpl: tpl[0])
 
     classes = []
 
@@ -157,10 +159,13 @@ class DirectoryIterator(Iterator):
 
         func = functools.partial(_count_filenames, extensions=extensions)
 
-        directories = [os.path.join(self.directory, subdirectory) for subdirectory in classes]
+        directories = [os.path.join(self.directory, subdirectory)
+                       for subdirectory in classes]
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            self.samples = sum(executor.map(func, [directory for directory in directories]))
+            self.samples = \
+                sum(executor.
+                    map(func, [directory for directory in directories]))
 
             self.filenames = []
 
@@ -168,12 +173,15 @@ class DirectoryIterator(Iterator):
 
             i = 0
 
-            pathnames = [os.path.join(self.directory, subdirectory) for subdirectory in classes]
+            pathnames = [os.path.join(self.directory, subdirectory)
+                         for subdirectory in classes]
 
             futures = []
 
             for pathname in pathnames:
-                future = executor.submit(_find_filenames, pathname, extensions, self.class_indices)
+                future = executor.\
+                    submit(_find_filenames, pathname,
+                           extensions, self.class_indices)
 
                 futures.append(future)
 

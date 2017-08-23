@@ -37,7 +37,8 @@ class TestImageGenerator:
 
         generator = keras_imaging.preprocessing.image.ImageGenerator()
 
-        generator = generator.flow_from_directory(str(tmpdir), shape=(64, 64, 5))
+        generator = generator.\
+            flow_from_directory(str(tmpdir), shape=(64, 64, 5))
 
         x, y = next(generator)
 

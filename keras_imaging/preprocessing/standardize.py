@@ -14,27 +14,13 @@ def desaturate(ratio):
     return lambda x: x + (x.max() - x) * ratio
 
 
-def rescale(scale, **kwargs):
-    """
-    Rescales the image according to the scale ratio.
-    :param scale: The scalar to rescale the image by.
-    :param kwargs: Additional arguments for skimage.transform.resize.
-    :return: The rescale function.
-    """
-    if keras.backend.image_data_format() == 'channels_first':
-        axes_scale = (1.0, scale, scale)
-    else:
-        axes_scale = (scale, scale, 1.0)
-
-    return lambda x: skimage.transform.resize(x, numpy.multiply(x.shape, axes_scale), **kwargs)
-
-
 def equalize(**kwargs):
     """
     Equalizes the image histogram, per channel.
     :param kwargs: Additional arguments for skimage.exposure.equalize_hist.
     :return: The equalize function.
     """
+
     def f(x):
         if keras.backend.image_data_format() == 'channels_last':
             x = numpy.moveaxis(x, -1, 0)
@@ -55,9 +41,11 @@ def equalize(**kwargs):
 def reduce_noise(**kwargs):
     """
     Reduces noise in the image.
-    :param kwargs: Additional arguments for skimage.restoration.denoise_bilateral.
+    :param kwargs: Additional arguments for
+    skimage.restoration.denoise_bilateral.
     :return: The reduce_noise function.
     """
+
     def f(x):
         if keras.backend.image_data_format() == 'channels_last':
             x = numpy.moveaxis(x, -1, 0)
@@ -71,5 +59,35 @@ def reduce_noise(**kwargs):
             y = numpy.moveaxis(y, 0, -1)
 
         return y
+
+    return f
+
+
+def normalization(means, max_values):
+    """
+    normalization make the image to range [-1,1]
+    :param means: means of image values across the dataset
+    :param max_values: maximum value
+    :return: normalized image
+    """
+
+    def f(x):
+        return (x - means) / max_values
+
+    return f
+
+
+def gaussian_blur(mean_sigma, variance_sigma=0.0):
+    """
+    :param mean_sigma: mean of expected value
+    :param variance_sigma:
+    :return:
+    """
+
+    def f(x):
+        sigma = mean_sigma
+        if variance_sigma is not 0.0:
+            sigma = numpy.random.normal(mean_sigma, variance_sigma)
+        return skimage.filters.gaussian(x, sigma, multichannel=False)
 
     return f
