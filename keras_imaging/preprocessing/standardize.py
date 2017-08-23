@@ -41,7 +41,8 @@ def equalize(**kwargs):
 def reduce_noise(**kwargs):
     """
     Reduces noise in the image.
-    :param kwargs: Additional arguments for skimage.restoration.denoise_bilateral.
+    :param kwargs: Additional arguments for
+    skimage.restoration.denoise_bilateral.
     :return: The reduce_noise function.
     """
 
@@ -87,6 +88,6 @@ def gaussian_blur(mean_sigma, variance_sigma=0.0):
         sigma = mean_sigma
         if variance_sigma is not 0.0:
             sigma = numpy.random.normal(mean_sigma, variance_sigma)
-        return skimage.filters.gaussian(x, sigma)
+        return skimage.filters.gaussian(x, sigma, multichannel=False)
 
     return f

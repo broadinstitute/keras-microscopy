@@ -62,9 +62,11 @@ def test_reduce_noise_first(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
     image_data_format.return_value = "channels_first"
     img = numpy.random.rand(1, 100, 100)
-    reduce = keras_imaging.preprocessing.standardize.reduce_noise(multichannel=False)
+    reduce = keras_imaging.preprocessing.\
+        standardize.reduce_noise(multichannel=False)
     new = reduce(img)
-    expected = skimage.restoration.denoise_bilateral(img[0, :, :], multichannel=False)
+    expected = skimage.restoration.\
+        denoise_bilateral(img[0, :, :], multichannel=False)
     numpy.testing.assert_array_equal(new, expected.reshape((1, 100, 100)))
 
 
@@ -72,9 +74,11 @@ def test_reduce_noise_last(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
     image_data_format.return_value = "channels_last"
     img = numpy.random.rand(100, 100, 1)
-    reduce = keras_imaging.preprocessing.standardize.reduce_noise(multichannel=False)
+    reduce = keras_imaging.preprocessing.\
+        standardize.reduce_noise(multichannel=False)
     new = reduce(img)
-    expected = skimage.restoration.denoise_bilateral(img[:, :, 0], multichannel=False)
+    expected = skimage.restoration.\
+        denoise_bilateral(img[:, :, 0], multichannel=False)
     numpy.testing.assert_array_equal(new, expected.reshape((100, 100, 1)))
 
 
@@ -108,9 +112,11 @@ def test_reduce_noise_uint8(mocker):
     image_data_format = mocker.patch("keras.backend.image_data_format")
     image_data_format.return_value = "channels_first"
     img = numpy.random.randint(256, size=(1, 100, 100)).astype(numpy.uint8)
-    reduce = keras_imaging.preprocessing.standardize.reduce_noise(multichannel=False)
+    reduce = keras_imaging.preprocessing.\
+        standardize.reduce_noise(multichannel=False)
     new = reduce(img)
-    expected = skimage.restoration.denoise_bilateral(img[0, :, :], multichannel=False)
+    expected = skimage.restoration.\
+        denoise_bilateral(img[0, :, :], multichannel=False)
     numpy.testing.assert_array_equal(new, expected.reshape((1, 100, 100)))
 
 
@@ -127,7 +133,8 @@ def test_gaussian_blur_float():
 
 
 def test_normalization():
-    norm = keras_imaging.preprocessing.standardize.normalization([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+    norm = keras_imaging.preprocessing.\
+        standardize.normalization([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
     img = numpy.ones((100, 100, 3))
     new = norm(img)
     numpy.testing.assert_array_equal(new, img)

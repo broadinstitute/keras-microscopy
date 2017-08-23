@@ -4,7 +4,8 @@ from scipy.ndimage.filters import gaussian_filter
 from scipy.ndimage.interpolation import map_coordinates
 
 """
-Note: Standardization and transforms assumes that x comes in WxHxC format from the reader
+Note: Standardization and transforms assumes
+that x comes in WxHxC format from the reader
 """
 
 
@@ -52,7 +53,8 @@ def rescale(scale, **kwargs):
     axes_scale = (scale, scale, 1.0)
 
     def f(x):
-        return skimage.transform.resize(x, numpy.multiply(x.shape, axes_scale), **kwargs)
+        return skimage.transform.\
+            resize(x, numpy.multiply(x.shape, axes_scale), **kwargs)
 
     return f
 
@@ -83,12 +85,17 @@ def ellastic_transfrom(alpha, sigma, bg_value):
         dy = gaussian_filter((numpy.random.rand(*x.shape[:2]) * 2 - 1),
                              sigma, mode="constant", cval=0) * alpha
 
-        cx, cy = numpy.meshgrid(numpy.arange(x.shape[0]), numpy.arange(x.shape[1]), indexing='ij')
-        indices = numpy.reshape(cx + dx, (-1, 1)), numpy.reshape(cy + dy, (-1, 1))
+        cx, cy = numpy.\
+            meshgrid(numpy.arange(x.shape[0]), numpy.arange(x.shape[1]),
+                     indexing='ij')
+        indices = numpy.reshape(cx + dx, (-1, 1)), numpy.\
+            reshape(cy + dy, (-1, 1))
 
         dest = numpy.zeros_like(x)
         for j in range(x.shape[2]):
-            dest[:, :, j] = map_coordinates(x[:, :, j], indices, cval=bg_value, order=1).reshape(x.shape[:2])
+            dest[:, :, j] = \
+                map_coordinates(x[:, :, j], indices, cval=bg_value, order=1).\
+                reshape(x.shape[:2])
         return dest
 
     return f
